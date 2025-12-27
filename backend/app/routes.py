@@ -1,6 +1,6 @@
 import json
 import os
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from uuid import uuid4
 from fastapi import Body
@@ -23,6 +23,10 @@ def get_db():
 
 @router.post("/jobs")
 def create_job(data: dict, db: Session = Depends(get_db)):
+
+    if data["type"] == "zoom" and "zoom.us" not in data["source_url"]:
+        raise HTTPException(status_code=400, detail="Invalid Zoom URL")
+    
     job_id = str(uuid4())
 
     job = Job(

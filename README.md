@@ -1,63 +1,74 @@
-# AI Meeting Notes → Jira Automation (Transcript → Tickets)
+# 🚀 AI Meeting → Jira Automation System
 
-### 🚀 Overview
-Automates meeting documentation and project management by turning meeting transcripts into structured summaries and Jira tickets.
+An end-to-end AI-powered system that converts meeting recordings into structured summaries and actionable Jira tickets using LLMs.
 
-### 💡 Key Features
-- Upload audio/video transcripts or paste meeting notes
-- Auto-generate agenda + summary + action items
-- Create Jira tickets automatically through API
-- Email structured meeting report to stakeholders
+---
 
-### 🧠 Tech Stack
-| Layer | Technology |
-|-------|------------|
-| Backend | FastAPI |
-| LLM | GPT / Claude |
-| Integrations | Jira API |
-| Deployment | AWS + Docker |
+## 🧠 Key Features
+- 🎥 Supports meeting recordings (YouTube / Zoom / Google Meet)
+- 🧾 Automatic transcript generation
+- 🤖 AI-powered summary + action item extraction
+- ✅ Manual selection of action items
+- 🎫 Jira ticket creation
+- 📊 Job history tracking
+- 🔄 Async background processing
 
-### 🏗 Architecture
-Transcript Input → FastAPI → GPT/Claude
-      ↓
-Action Item Extractor + Jira API
-      ↓
-AWS Deployment
+---
 
-### 📂 Project Structure
-```
-ai-meeting-notes-jira-automation/
-┣ app/
-┃ ┣ routers/
-┃ ┣ services/
-┃ ┣ utils/
-┃ ┗ main.py
-┣ data/
-┣ Dockerfile
-┣ requirements.txt
-┗ README.md
+## 🏗️ Architecture
+
+Frontend (Streamlit)
+        ↓
+FastAPI Backend
+        ↓
+AWS SQS
+        ↓
+Worker (Whisper + LLM + Jira)
+
+---
+
+## 🚀 Setup Instructions
+
+### 1. Clone Repo
+```bash
+git clone <repo-url>
+cd ai-meeting-notes-jira-automation
 ```
 
-### 📌 API Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/upload-transcript/` | Upload meeting transcript |
-| POST | `/generate-report/` | Generate structured summary |
-| POST | `/create-jira-tickets/` | Auto-create Jira issues |
-
-### 🚀 Deployment
+### 2. Setup Environment
+```bash
+pip install uv
+uv venv
+source .venv/bin/activate
+uv pip install -r requirements.txt
 ```
-docker build -t meeting-jira-automation .
-docker run -p 8000:8000 meeting-jira-automation
+
+### 3. Start Backend
+```bash
+cd backend
+uvicorn app.main:app --reload
+```
+
+### 4. Start Worker
+```bash
+cd backend
+python -m worker.worker
+```
+
+### 5. Start Frontend
+```bash
+cd frontend
+streamlit run app.py
 ```
 
 ---
 
-### 🤝 Ideal Use Cases
-- Agile teams
-- PMO departments
-- SaaS product teams
-- Consulting companies
+## 📌 Notes
+- Supports Zoom / YouTube / Google Meet recordings
+- Zoom OAuth required for private recordings
+- Jira creation is user-controlled
 
-### 📩 Contact
-For integration with Slack/Teams, Airtable, or Trello — happy to discuss.
+---
+
+## 👨‍💻 Author
+Built for learning, experimentation, and real-world architecture practice.
