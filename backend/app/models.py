@@ -16,3 +16,4 @@ class Job(Base):
     source_type = Column(String)
     status = Column(Enum(JobStatus), default=JobStatus.PENDING)
     result = Column(Text, nullable=True)
+    jira_tickets = Column(Text, nullable=True)   # ✅ NEW

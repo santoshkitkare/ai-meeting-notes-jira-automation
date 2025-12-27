@@ -16,3 +16,8 @@ def create_job(source_url, source_type):
 def get_job_status(job_id):
     res = requests.get(f"{BACKEND_URL}/jobs/{job_id}")
     return res.json()
+
+
+def get_all_jobs():
+    res = requests.get(f"{BACKEND_URL}/jobs")
+    return res.json()
