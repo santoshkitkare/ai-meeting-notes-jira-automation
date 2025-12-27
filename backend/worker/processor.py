@@ -1,5 +1,7 @@
 from worker.transcript.youtube import download_audio
 from worker.transcript.whisper_transcriber import transcribe_audio
+from worker.llm.openai_client import generate_summary
+import json
 
 def process_job(payload: dict):
     source_url = payload["source_url"]
@@ -14,17 +16,19 @@ def process_job(payload: dict):
     print("🧹 Cleaning transcript...")
     transcript = transcript.strip()
 
-    # Temporary AI output (next step we replace with GPT)
-    result = {
-        "transcript": transcript,
-        "summary": "Auto-generated summary (placeholder)",
-        "action_items": [
-            {
-                "title": "Review meeting notes",
-                "owner": "Team",
-                "priority": "Medium"
-            }
-        ]
-    }
+    print("🤖 Generating AI summary...")
+    llm_output = generate_summary(transcript)
 
-    return result
+    try:
+        result = json.loads(llm_output)
+    except:
+        result = {
+            "summary": llm_output,
+            "decisions": [],
+            "action_items": []
+        }
+
+    return {
+        "transcript": transcript,
+        **result
+    }
