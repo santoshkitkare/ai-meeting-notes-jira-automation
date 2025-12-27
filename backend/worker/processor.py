@@ -1,6 +1,8 @@
+import os
 from worker.transcript.youtube import download_audio
 from worker.transcript.whisper_transcriber import transcribe_audio
 from worker.llm.openai_client import generate_summary
+from worker.jira.jira_client import create_jira_ticket
 import json
 
 def process_job(payload: dict):
@@ -21,11 +23,36 @@ def process_job(payload: dict):
 
     try:
         result = json.loads(llm_output)
+        
+        jira_issues = []
+        
+        print("📌 Creating Jira tickets...")
+        for item in result.get("action_items", []):
+            issue = create_jira_ticket(
+                title=item["title"],
+                description=item["description"],
+                priority=item.get("priority", "Medium")
+            )
+
+            jira_issues.append({
+                "key": issue["key"],
+                "url": f"{os.getenv('JIRA_BASE_URL')}/browse/{issue['key']}"
+            })
+
+        return {
+            "summary": result["summary"],
+            "decisions": result.get("decisions", []),
+            "action_items": result["action_items"],
+            "jira_tickets": jira_issues
+        }
+
+        
     except:
         result = {
             "summary": llm_output,
             "decisions": [],
-            "action_items": []
+            "action_items": [],
+            "jira_tickets": []
         }
 
     return {
