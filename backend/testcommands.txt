@@ -1,0 +1,1 @@
+curl -X POST http://localhost:8000/jobs -H "Content-Type: application/json" -d "{\"source_url\":\"https://www.youtube.com/watch?v=iWS9ogMPOI0\",\"type\":\"youtube\"}"
