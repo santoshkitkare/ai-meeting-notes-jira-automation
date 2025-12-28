@@ -1,35 +1,53 @@
-# 🎨 Frontend – Streamlit UI
+# 🎨 Frontend – AI Meeting Dashboard
 
-UI for submitting meetings and managing Jira tickets.
+## Streamlit-based UI for:
+- Submitting meetings
+- Viewing summaries
+- Selecting action items
+- Creating Jira tickets
+- Viewing job history
 
----
+## ▶️ Run Frontend
 
-## Run Frontend
 ```bash
 streamlit run app.py
 ```
 
----
+## 🧩 Features
+    ✔ Upload meeting link
+    ✔ Select source (YouTube / Zoom / Meet)
+    ✔ View AI-generated summary
+    ✔ Select action items
+    ✔ Create Jira tickets
+    ✔ View job history
 
-## Features
-- Paste meeting link
-- View AI-generated summary
-- Select action items
-- Create Jira tickets
-- View job history
+## 🖥️ UI Sections
+### 1. Meeting Input
+- URL input
+- Source selection
 
----
+### 2. AI Output
+- Summary
+- Action items table
+- Priority + owner
 
-## UI Sections
-1. Meeting Input
-2. Summary Output
-3. Action Items Table
-4. Jira Ticket Links
-5. Job History
+### 3. Jira Integration
+- Checkbox-based selection
+- Ticket creation
+- Jira links
 
----
+### 4. Job History
+- Past jobs
+- Status
+- Jira references
 
-## Notes
-- Uses Streamlit session state
-- Supports async job tracking
-- Designed for demo and extension
+## 🧠 Notes
+- Uses session_state for persistence
+- Async-safe UI
+- Optimized for demo & scalability
+
+## 📌 Future Enhancements
+- File upload
+- Auth support
+- Role-based access
+- Analytics dashboard

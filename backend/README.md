@@ -1,61 +1,79 @@
 # 🔧 Backend – AI Meeting Processor
 
-Handles all backend processing including:
+This service handles:
 - Job creation
 - Audio processing
 - AI summarization
 - Jira integration
+- Job history persistence
 
----
+## 📦 Tech Stack
 
-## Tech Stack
 - FastAPI
 - SQLite
 - AWS SQS
 - OpenAI / Whisper
 - Jira REST API
 
----
 
-## Run Backend
+## 🗂️ Folder Structure
+```
+backend/
+├── app/
+│ ├── main.py
+│ ├── routes.py
+│ ├── models.py
+│ ├── db.py
+│ ├── sqs_client.py
+│ ├── config.py
+├── worker/
+│ ├── processor.py
+│ ├── transcript/
+│ ├── llm/
+│ ├── jira/
+├── README.md
+```
+
+## ▶️ Run Backend
+
 ```bash
 uvicorn app.main:app --reload
 ```
-
----
-
-## Environment Variables
-```env
+## ⚙️ Environment Variables
+### Create .env file:
+```
 OPENAI_API_KEY=your_key
 JIRA_BASE_URL=https://your-domain.atlassian.net
 JIRA_EMAIL=you@example.com
 JIRA_API_TOKEN=your_token
 AWS_REGION=ap-south-1
-SQS_QUEUE_URL=your_queue_url
+SQS_QUEUE_URL=https://sqs...
 ```
 
----
-
-## API Endpoints
-
+## 🔄 API Endpoints
 ### Create Job
-POST /jobs
+- POST /jobs
 
-### Get Job Status
-GET /jobs/{job_id}
+Get Job Status
+- GET /jobs/{job_id}
 
-### Create Jira Tickets
-POST /jobs/{job_id}/jira
+Create Jira Tickets
+- POST /jobs/{job_id}/jira
 
----
-
-## Worker
-```bash
+## ⚙️ Worker
+### Start worker separately:
+```
 python -m worker.worker
 ```
 
-Processes:
+### Worker handles:
 - Audio extraction
 - Transcription
-- LLM summary
-- Action items
+- LLM summarization
+- Status updates
+
+## 🧠 Design Notes
+- Async job handling
+- Decoupled processing
+- No blocking API calls
+- Production-aligned architecture

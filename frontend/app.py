@@ -56,7 +56,14 @@ if st.session_state.job_result:
     st.write(parsed.get("summary", ""))
 
     st.subheader("📄 Decisions")
-    st.write(parsed.get("decisions", []))
+
+    decisions = parsed.get("decisions", [])
+
+    if decisions:
+        for idx, decision in enumerate(decisions, start=1):
+            st.markdown(f"**{idx}.** {decision}")
+    else:
+        st.info("No decisions found.")
 
     st.subheader("📌 Action Items")
 
