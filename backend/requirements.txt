@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+boto3
+python-dotenv
+SQLAlchemy
+pydantic
+requests
+ffmpeg-python
+openai
+openai-whisper
+yt-dlp
