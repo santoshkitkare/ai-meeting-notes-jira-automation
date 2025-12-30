@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/project_banner.PNG" alt="AI Meeting → Jira Automation System" width="100%" />
+  <img src="assets/project_banner.png" alt="AI Meeting → Jira Automation System" width="100%" />
 </p>
 
 # 🚀 AI Meeting → Jira Automation System
