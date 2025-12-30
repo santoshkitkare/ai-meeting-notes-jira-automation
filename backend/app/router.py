@@ -12,7 +12,13 @@ from app.sqs_client import send_job_to_queue
 from fastapi import APIRouter
 from worker.jira.jira_client import create_jira_ticket
 
+from app.routes.internal import router as internal_router
+from app.routes.websocket import router as websocket_router
+
 router = APIRouter()
+
+router.include_router(internal_router)
+router.include_router(websocket_router)
 
 def get_db():
     db = SessionLocal()
@@ -68,6 +74,8 @@ def list_jobs(db: Session = Depends(get_db)):
             "job_id": j.job_id,
             "source_url": j.source_url,
             "status": j.status,
+            "result": json.loads(j.result) if j.result else None,
+            "jira_tickets": json.loads(j.jira_tickets) if j.jira_tickets else []
         }
         for j in jobs
     ]
@@ -77,6 +85,9 @@ def list_jobs(db: Session = Depends(get_db)):
 @router.post("/jobs/{job_id}/jira")
 def create_jira(job_id: str, items: list = Body(...), db: Session = Depends(get_db)):
     job = db.query(Job).filter(Job.job_id == job_id).first()
+
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
 
     created = []
 
@@ -89,10 +100,16 @@ def create_jira(job_id: str, items: list = Body(...), db: Session = Depends(get_
 
         created.append({
             "key": issue["key"],
-            "url": f"{os.getenv('JIRA_BASE_URL')}/browse/{issue['key']}"
+            "url": f"{os.getenv('JIRA_BASE_URL')}/browse/{issue['key']}",
+            "title": item["title"]
         })
 
     job.jira_tickets = json.dumps(created)
+    print("Storing jira tickets:", job.jira_tickets)
     db.commit()
+    
+    db.refresh(job)
+    print("Updated job:", job)
 
     return {"jira_tickets": created}
+

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Enum, Text
+from sqlalchemy import Column, String, Enum, Text, JSON
 from app.db import Base
 import enum
 
@@ -16,4 +16,4 @@ class Job(Base):
     source_type = Column(String)
     status = Column(Enum(JobStatus), default=JobStatus.PENDING)
     result = Column(Text, nullable=True)
-    jira_tickets = Column(Text, nullable=True)   # ✅ NEW
+    jira_tickets = Column(JSON, nullable=True)   # ✅ NEW

@@ -57,4 +57,5 @@ def create_jira_ticket(title, description, priority="Medium"):
     if response.status_code not in [200, 201]:
         raise Exception(f"Jira Error: {response.text}")
 
+    print("Jira ticket created:", response.json())
     return response.json()
