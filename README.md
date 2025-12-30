@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/project_banner.PNG" alt="AI Meeting → Jira Automation System" width="100%" />
+</p>
+
 # 🚀 AI Meeting → Jira Automation System
 
 An end-to-end AI-powered system that converts meeting recordings into structured summaries and actionable Jira tickets using LLMs.
